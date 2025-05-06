@@ -2,6 +2,7 @@ object camion {
     const carga = []
     method cargar(unaCosa){
         carga.add(unaCosa)
+        unaCosa.consecuenciaCarga()
     }
     method descargar(unaCosa){
         carga.remove(unaCosa)

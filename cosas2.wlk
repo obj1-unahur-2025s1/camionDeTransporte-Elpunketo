@@ -1,6 +1,8 @@
 object knightRider {
     method peso() {return 500}
+    method bultos() {return 1}
     method peligrosidad() {return 10}
+    method consecuenciaCarga() {}
 }
 
 object bumblebee {
@@ -21,6 +23,10 @@ object bumblebee {
         esRobot = false
     }
     method peso() {return 800}
+    method bultos() {return 2}
+    method consecuenciaCarga(){
+        self.transformarRobot()
+    }
 }
 
 object ladrillos{
@@ -29,6 +35,20 @@ object ladrillos{
     method cantidadLadrillos() {return cantidadLadrillos}
     method peso() {return 2 * cantidadLadrillos}
     method peligrosidad() {return 2}
+    method bultos() {
+        if(cantidadLadrillos <= 100){
+            return 1
+        }
+        else if(cantidadLadrillos.between(101,300)){
+            return 2
+        }
+        else{
+            return 3
+        }
+    }
+    method consecuenciaCarga(){
+        self.cantidadLadrillos(cantidadLadrillos + 12)
+    }
 }
 
 object arena{
@@ -37,6 +57,10 @@ object arena{
     //property tiene: method peso() {return peso}
     //property solo usar cuando no hay que incrementar o degradar el valor de la variable
     method peligrosidad() {return 1}
+    method bultos() {return 1}
+    method consecuenciaCarga(){
+        peso = 0.max(peso-10)
+    }
 }
 
 object bateriaAntiaerea{
@@ -64,6 +88,17 @@ object bateriaAntiaerea{
             0
         }
     }
+    method bultos() {
+        if(self.tieneMisiles()){
+            return 2
+        }
+        else{
+            return 1
+        }
+    }
+    method consecuenciaCarga(){
+        self.cargarMisiles()
+    }
 }
 
 object contenedor {
@@ -87,15 +122,27 @@ object contenedor {
             cosas.max({c => c.peligrosidad()}).peligrosidad()
         }
     }
+    method bultos() {
+        return 1 + cosas.sum({c=>c.bultos()})
+        }
+    method consecuenciaCarga(){
+        cosas.forEach({c=>c.consecuenciaCarga()})
+    }
 }
 
 object residuos {
     var property peso = 0
     method peligrosidad() {return 200}
+    method bultos() {return 1}
+    method consecuenciaCarga(){
+        peso = peso + 15
+    }
 }
 
 object embalaje {
     var property cosaEnvuelta = arena
     method peso() {return cosaEnvuelta.peso()}
     method peligrosidad() {return cosaEnvuelta.peligrosidad() / 2}
+    method bultos() {return 2}
+    method consecuenciaCarga() {}
 }
