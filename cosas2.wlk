@@ -4,6 +4,7 @@ object knightRider {
     method peligrosidad() {return 10}
     method consecuenciaCarga() {}
 }
+//
 
 object bumblebee {
     var esRobot = false

@@ -3,6 +3,8 @@ object camion {
     method cargar(unaCosa){
         carga.add(unaCosa)
     }
+    //
+    
     method descargar(unaCosa){
         carga.remove(unaCosa)
     }
